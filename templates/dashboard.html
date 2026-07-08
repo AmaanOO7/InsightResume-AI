@@ -1,0 +1,342 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard - InsightResume AI</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+    <div class="theme-toggle" id="themeToggle">
+        <i class="fas fa-moon"></i>
+    </div>
+
+    <nav class="navbar navbar-expand-lg navbar-dark fixed-top glass-nav">
+        <div class="container">
+            <a class="navbar-brand" href="/">
+                <i class="fas fa-brain me-2"></i>
+                <span class="brand-text">InsightResume AI</span>
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="/">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" href="/dashboard">Dashboard</a>
+                    </li>
+                    <li class="nav-item">
+                        <button class="btn btn-outline-light btn-sm ms-3" id="clearSessionBtn">
+                            <i class="fas fa-redo me-2"></i>New Analysis
+                        </button>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <div class="dashboard-container">
+        <div class="container">
+            <div id="uploadSection" class="upload-section">
+                <div class="row justify-content-center">
+                    <div class="col-lg-8">
+                        <div class="upload-card">
+                            <div class="upload-icon">
+                                <i class="fas fa-cloud-upload-alt"></i>
+                            </div>
+                            <h2 class="upload-title">Upload Your Resume</h2>
+                            <p class="upload-subtitle">Upload your resume in PDF or DOCX format to get started</p>
+                            
+                            <div class="upload-area" id="uploadArea">
+                                <input type="file" id="resumeFile" accept=".pdf,.docx" hidden>
+                                <i class="fas fa-file-upload mb-3"></i>
+                                <p class="mb-2">Drag and drop your resume here</p>
+                                <p class="text-muted mb-3">or</p>
+                                <button class="btn btn-primary" id="browseBtn">
+                                    <i class="fas fa-folder-open me-2"></i>Browse Files
+                                </button>
+                                <p class="upload-info mt-3">
+                                    <i class="fas fa-info-circle me-2"></i>
+                                    Supported formats: PDF, DOCX (Max 10MB)
+                                </p>
+                            </div>
+
+                            <div id="uploadProgress" class="upload-progress" style="display: none;">
+                                <div class="progress">
+                                    <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" style="width: 0%"></div>
+                                </div>
+                                <p class="mt-2 text-center">Uploading and processing your resume...</p>
+                            </div>
+
+                            <div id="uploadSuccess" class="alert alert-success" style="display: none;">
+                                <i class="fas fa-check-circle me-2"></i>
+                                <span id="successMessage"></span>
+                            </div>
+
+                            <div id="uploadError" class="alert alert-danger" style="display: none;">
+                                <i class="fas fa-exclamation-circle me-2"></i>
+                                <span id="errorMessage"></span>
+                            </div>
+                            <!-- Job Description -->
+                            <div class="mt-4">
+                                <label for="jobDescription" class="form-label fw-bold">
+                                    <i class="fas fa-briefcase me-2"></i>Job Description
+                                </label>
+
+                                <textarea
+                                    id="jobDescription"
+                                    class="form-control"
+                                    rows="8"
+                                    placeholder="Paste the complete Job Description here..."></textarea>
+
+                                <small class="text-muted">
+                                    Paste the exact Job Description from LinkedIn, Naukri, Indeed, company website, etc.
+                                </small>
+                            </div>
+
+                            <div class="text-center mt-4">
+                                <button class="btn btn-success btn-lg" id="analyzeResumeBtn">
+                                    <i class="fas fa-magic me-2"></i>
+                                    Analyze Resume
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div id="analysisSection" class="analysis-section" style="display: none;">
+                <div class="row mb-4">
+                    <div class="col-12">
+                        <div class="analysis-header">
+                            <h2>
+                                <i class="fas fa-chart-line me-2"></i>
+                                Resume Analysis
+                            </h2>
+                            <div class="analysis-actions">
+                                <button class="btn btn-outline-primary me-2" id="generateInterviewBtn">
+                                    <i class="fas fa-comments me-2"></i>Interview Prep
+                                </button>
+                                <button class="btn btn-outline-primary me-2" id="generateCareerBtn">
+                                    <i class="fas fa-compass me-2"></i>Career Guide
+                                </button>
+                                <button class="btn btn-primary" id="exportPdfBtn">
+                                    <i class="fas fa-file-pdf me-2"></i>Export PDF
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="loadingSpinner" class="text-center py-5" style="display: none;">
+                    <div class="spinner-border text-primary" role="status" style="width: 3rem; height: 3rem;">
+                        <span class="visually-hidden">Loading...</span>
+                    </div>
+                    <p class="mt-3">Analyzing your resume with AI...</p>
+                </div>
+
+                <div id="analysisResults" style="display: none;">
+                    <div class="row g-4 mb-4">
+                        <div class="col-md-3">
+                            <div class="score-card">
+                                <div class="score-icon">
+                                    <i class="fas fa-star"></i>
+                                </div>
+                                <div class="score-value" id="resumeScore">--</div>
+                                <div class="score-label">Resume Score</div>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="score-card">
+                                <div class="score-icon">
+                                    <i class="fas fa-robot"></i>
+                                </div>
+                                <div class="score-value" id="atsScore">--</div>
+                                <div class="score-label">ATS Score</div>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="score-card">
+                                <div class="score-icon">
+                                    <i class="fas fa-briefcase"></i>
+                                </div>
+                                <div class="score-value" id="experienceLevel">--</div>
+                                <div class="score-label">Experience Level</div>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="score-card">
+                                <div class="score-icon">
+                                    <i class="fas fa-code"></i>
+                                </div>
+                                <div class="score-value" id="skillsCount">--</div>
+                                <div class="score-label">Skills Found</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row g-4 mb-4">
+                        <div class="col-lg-12">
+                            <div class="info-card">
+                                <h4 class="info-card-title">
+                                    <i class="fas fa-file-alt me-2"></i>Summary
+                                </h4>
+                                <p id="summaryText" class="info-card-text"></p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row g-4 mb-4">
+                        <div class="col-lg-6">
+                            <div class="info-card">
+                                <h4 class="info-card-title">
+                                    <i class="fas fa-check-circle me-2 text-success"></i>Strengths
+                                </h4>
+                                <ul id="strengthsList" class="info-list"></ul>
+                            </div>
+                        </div>
+                        <div class="col-lg-6">
+                            <div class="info-card">
+                                <h4 class="info-card-title">
+                                    <i class="fas fa-exclamation-triangle me-2 text-warning"></i>Areas for Improvement
+                                </h4>
+                                <ul id="weaknessesList" class="info-list"></ul>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row g-4 mb-4">
+                        <div class="col-lg-6">
+                            <div class="info-card">
+                                <h4 class="info-card-title">
+                                    <i class="fas fa-code me-2 text-primary"></i>Skills Found
+                                </h4>
+                                <div id="skillsFoundBadges" class="badge-container"></div>
+                            </div>
+                        </div>
+                        <div class="col-lg-6">
+                            <div class="info-card">
+                                <h4 class="info-card-title">
+                                    <i class="fas fa-plus-circle me-2 text-info"></i>Recommended Skills
+                                </h4>
+                                <div id="missingSkillsBadges" class="badge-container"></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row g-4">
+                        <div class="col-lg-12">
+                            <div class="info-card">
+                                <h4 class="info-card-title">
+                                    <i class="fas fa-lightbulb me-2 text-warning"></i>Suggested Improvements
+                                </h4>
+                                <ul id="improvementsList" class="info-list"></ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="interviewSection" style="display: none;">
+                    <div class="row mt-5">
+                        <div class="col-12">
+                            <h3 class="section-title mb-4">
+                                <i class="fas fa-comments me-2"></i>Interview Preparation
+                            </h3>
+                        </div>
+                    </div>
+
+                    <div class="row g-4">
+                        <div class="col-lg-6">
+                            <div class="info-card">
+                                <h4 class="info-card-title">
+                                    <i class="fas fa-code me-2 text-primary"></i>Technical Questions
+                                </h4>
+                                <div id="technicalQuestions"></div>
+                            </div>
+                        </div>
+                        <div class="col-lg-6">
+                            <div class="info-card">
+                                <h4 class="info-card-title">
+                                    <i class="fas fa-user-tie me-2 text-success"></i>HR Questions
+                                </h4>
+                                <div id="hrQuestions"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="careerSection" style="display: none;">
+                    <div class="row mt-5">
+                        <div class="col-12">
+                            <h3 class="section-title mb-4">
+                                <i class="fas fa-compass me-2"></i>Career Suggestions
+                            </h3>
+                        </div>
+                    </div>
+
+                    <div class="row g-4 mb-4">
+                        <div class="col-lg-12">
+                            <div class="info-card">
+                                <h4 class="info-card-title">
+                                    <i class="fas fa-briefcase me-2 text-primary"></i>Suitable Job Roles
+                                </h4>
+                                <div id="suitableRoles"></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row g-4 mb-4">
+                        <div class="col-lg-6">
+                            <div class="info-card">
+                                <h4 class="info-card-title">
+                                    <i class="fas fa-dollar-sign me-2 text-success"></i>Salary Range
+                                </h4>
+                                <div id="salaryRange"></div>
+                            </div>
+                        </div>
+                        <div class="col-lg-6">
+                            <div class="info-card">
+                                <h4 class="info-card-title">
+                                    <i class="fas fa-certificate me-2 text-warning"></i>Recommended Certifications
+                                </h4>
+                                <div id="certifications"></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row g-4">
+                        <div class="col-lg-12">
+                            <div class="info-card">
+                                <h4 class="info-card-title">
+                                    <i class="fas fa-road me-2 text-info"></i>Learning Roadmap
+                                </h4>
+                                <div id="learningRoadmap"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="toast-container position-fixed bottom-0 end-0 p-3">
+        <div id="notificationToast" class="toast" role="alert" aria-live="assertive" aria-atomic="true">
+            <div class="toast-header">
+                <i class="fas fa-bell me-2"></i>
+                <strong class="me-auto">Notification</strong>
+                <button type="button" class="btn-close" data-bs-dismiss="toast"></button>
+            </div>
+            <div class="toast-body"></div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="{{ url_for('static', filename='js/main.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/dashboard.js') }}"></script>
+</body>
+</html>

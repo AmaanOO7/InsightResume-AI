@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>InsightResume AI - AI-Powered Resume Analysis</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+    <div class="theme-toggle" id="themeToggle">
+        <i class="fas fa-moon"></i>
+    </div>
+
+    <nav class="navbar navbar-expand-lg navbar-dark fixed-top glass-nav">
+        <div class="container">
+            <a class="navbar-brand" href="/">
+                <i class="fas fa-brain me-2"></i>
+                <span class="brand-text">InsightResume AI</span>
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link active" href="/">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#features">Features</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#how-it-works">How It Works</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link btn btn-primary ms-3" href="/dashboard">Get Started</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <section class="hero-section">
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-lg-6 hero-content">
+                    <div class="hero-badge mb-3">
+                        <i class="fas fa-sparkles me-2"></i>
+                        Built by Aman Kumar
+                    </div>
+                    <h1 class="hero-title">Transform Your Resume with AI Intelligence</h1>
+                    <p class="hero-subtitle">Get instant, professional resume analysis, ATS scoring, interview preparation, and personalized career guidance powered by Gemini AI.</p>
+                    <div class="hero-buttons">
+                        <a href="/dashboard" class="btn btn-primary btn-lg me-3">
+                            <i class="fas fa-rocket me-2"></i>
+                            Analyze Resume
+                        </a>
+                        <a href="#how-it-works" class="btn btn-outline-light btn-lg">
+                            <i class="fas fa-play-circle me-2"></i>
+                            Learn More
+                        </a>
+                    </div>
+                    <div class="hero-stats mt-4">
+                        <div class="stat-item">
+                            <div class="stat-number">98%</div>
+                            <div class="stat-label">Accuracy</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-number">10K+</div>
+                            <div class="stat-label">Resumes Analyzed</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-number">5 Min</div>
+                            <div class="stat-label">Average Time</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-6">
+                    <div class="hero-image">
+                        <div class="floating-card card-1">
+                            <i class="fas fa-chart-line"></i>
+                            <div>Resume Score: 92/100</div>
+                        </div>
+                        <div class="floating-card card-2">
+                            <i class="fas fa-check-circle"></i>
+                            <div>ATS Compatible</div>
+                        </div>
+                        <div class="floating-card card-3">
+                            <i class="fas fa-briefcase"></i>
+                            <div>5 Job Matches</div>
+                        </div>
+                        <div class="hero-illustration">
+                            <i class="fas fa-file-alt"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="features" class="features-section">
+        <div class="container">
+            <div class="section-header text-center mb-5">
+                <h2 class="section-title">Powerful Features</h2>
+                <p class="section-subtitle">Everything you need to perfect your resume and land your dream job</p>
+            </div>
+            <div class="row g-4">
+                <div class="col-md-6 col-lg-4">
+                    <div class="feature-card">
+                        <div class="feature-icon">
+                            <i class="fas fa-chart-bar"></i>
+                        </div>
+                        <h3 class="feature-title">AI Resume Analysis</h3>
+                        <p class="feature-description">Get comprehensive scoring, identify strengths and weaknesses, and receive actionable improvement suggestions.</p>
+                    </div>
+                </div>
+                <div class="col-md-6 col-lg-4">
+                    <div class="feature-card">
+                        <div class="feature-icon">
+                            <i class="fas fa-robot"></i>
+                        </div>
+                        <h3 class="feature-title">ATS Optimization</h3>
+                        <p class="feature-description">Ensure your resume passes Applicant Tracking Systems with our advanced ATS compatibility scoring.</p>
+                    </div>
+                </div>
+                <div class="col-md-6 col-lg-4">
+                    <div class="feature-card">
+                        <div class="feature-icon">
+                            <i class="fas fa-comments"></i>
+                        </div>
+                        <h3 class="feature-title">Interview Prep</h3>
+                        <p class="feature-description">Practice with AI-generated interview questions tailored to your experience and target roles.</p>
+                    </div>
+                </div>
+                <div class="col-md-6 col-lg-4">
+                    <div class="feature-card">
+                        <div class="feature-icon">
+                            <i class="fas fa-compass"></i>
+                        </div>
+                        <h3 class="feature-title">Career Guidance</h3>
+                        <p class="feature-description">Discover suitable job roles, salary ranges, and personalized learning roadmaps for career growth.</p>
+                    </div>
+                </div>
+                <div class="col-md-6 col-lg-4">
+                    <div class="feature-card">
+                        <div class="feature-icon">
+                            <i class="fas fa-certificate"></i>
+                        </div>
+                        <h3 class="feature-title">Certification Recommendations</h3>
+                        <p class="feature-description">Get personalized certification suggestions to boost your credentials and marketability.</p>
+                    </div>
+                </div>
+                <div class="col-md-6 col-lg-4">
+                    <div class="feature-card">
+                        <div class="feature-icon">
+                            <i class="fas fa-file-pdf"></i>
+                        </div>
+                        <h3 class="feature-title">PDF Reports</h3>
+                        <p class="feature-description">Download comprehensive analysis reports in professional PDF format for future reference.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="how-it-works" class="how-it-works-section">
+        <div class="container">
+            <div class="section-header text-center mb-5">
+                <h2 class="section-title">How It Works</h2>
+                <p class="section-subtitle">Simple, fast, and effective resume analysis in three easy steps</p>
+            </div>
+            <div class="row g-4">
+                <div class="col-md-4">
+                    <div class="step-card">
+                        <div class="step-number">1</div>
+                        <div class="step-icon">
+                            <i class="fas fa-upload"></i>
+                        </div>
+                        <h3 class="step-title">Upload Resume</h3>
+                        <p class="step-description">Upload your resume in PDF or DOCX format. Our system securely processes your document.</p>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="step-card">
+                        <div class="step-number">2</div>
+                        <div class="step-icon">
+                            <i class="fas fa-brain"></i>
+                        </div>
+                        <h3 class="step-title">AI Analysis</h3>
+                        <p class="step-description">Gemini AI model analyzes your resume, generating insights and recommendations.</p>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="step-card">
+                        <div class="step-number">3</div>
+                        <div class="step-icon">
+                            <i class="fas fa-download"></i>
+                        </div>
+                        <h3 class="step-title">Get Results</h3>
+                        <p class="step-description">Review your comprehensive analysis, interview questions, and career suggestions. Download as PDF.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="cta-section">
+        <div class="container">
+            <div class="cta-content text-center">
+                <h2 class="cta-title">Ready to Transform Your Career?</h2>
+                <p class="cta-subtitle">Join thousands of professionals who have improved their resumes with AI</p>
+                <a href="/dashboard" class="btn btn-light btn-lg">
+                    <i class="fas fa-rocket me-2"></i>
+                    Start Free Analysis
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <footer class="footer">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="footer-brand">
+                        <i class="fas fa-brain me-2"></i>
+                        InsightResume AI
+                    </div>
+                    <p class="footer-description">AI-powered resume analysis and career guidance platform Built by Aman Kumar</p>
+                </div>
+                <div class="col-md-3">
+                    <h5 class="footer-title">Quick Links</h5>
+                    <ul class="footer-links">
+                        <li><a href="/">Home</a></li>
+                        <li><a href="#features">Features</a></li>
+                        <li><a href="#how-it-works">How It Works</a></li>
+                        <li><a href="/dashboard">Dashboard</a></li>
+                    </ul>
+                </div>
+                <div class="col-md-3">
+                    <h5 class="footer-title">Connect</h5>
+                    <div class="social-links">
+                        <a href="https://x.com/AksFranky" class="social-link"><i class="fab fa-twitter"></i></a>
+                        <a href="https://www.linkedin.com/in/aman-kumarx/" class="social-link"><i class="fab fa-linkedin"></i></a>
+                        <a href="https://github.com/AmaanOO7" class="social-link"><i class="fab fa-github"></i></a>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2026 InsightResume AI. All rights reserved. Built by Aman Kumar</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="{{ url_for('static', filename='js/main.js') }}"></script>
+</body>
+</html>
